@@ -1,6 +1,6 @@
 int ligado = 0;
 int lightson =0;
-int direction = 50;
+int direction = 0;
 int botao1 =0;
 int botao2 =0;
 int botao3 =0;
@@ -32,6 +32,7 @@ void setup()
 
 
 void controleDIR(){
+  direction = analogRead(A1);
   if (direction <= 168 ){
     carrossel = 0;
   }
@@ -53,25 +54,29 @@ void fullLED(){
 		digitalWrite(9, HIGH);
 		digitalWrite(10, HIGH);
 		digitalWrite(11, HIGH);
+		Serial.println("full");
 		verificaModo();
 	}
 }
 
 void halfLED(){
 	while (modo ==1){
+      	 verificaModo();
 		 direction = analogRead(A1);
 		 controleDIR();
-         Serial.println(direction);
+         	 Serial.println(direction);
 		 if (carrossel == 0){
 			turnOFF();
 			digitalWrite(8, HIGH);
 			digitalWrite(10, HIGH); 
+            		Serial.println("pin 8 e 10");
 			
 		  }else{
 			if (carrossel == 1){
 				turnOFF();
 				digitalWrite(8, HIGH);
 				digitalWrite(9, HIGH);
+              			Serial.println("pin 8 e 9");
 				
 			}
 			else{
@@ -79,11 +84,13 @@ void halfLED(){
 					turnOFF();
 					digitalWrite(9, HIGH);
 					digitalWrite(11, HIGH);
+                    			Serial.println("pin 9 e 11");
 			  }else{
 				if (carrossel == 3){
 					turnOFF();
 					digitalWrite(10, HIGH);
 					digitalWrite(11, HIGH);
+                  			Serial.println("pin 10 e 11");
 				}else{
 				  if (carrossel >3)
 				  {
@@ -99,33 +106,35 @@ void halfLED(){
 
 void onesection(){
 	while (modo ==2){
-		 direction = analogRead(A1);
+		 
 		 verificaModo();
 		 
 		 controleDIR();
-         Serial.println(direction);
+         	 Serial.println(direction);
 		 if (carrossel == 0){
 			turnOFF();
-			digitalWrite(8, HIGH);			
+			digitalWrite(8, HIGH);		
+           		 Serial.println("pin 8");
 		  }else{
 			if (carrossel == 1){
 				turnOFF();	
-				digitalWrite(9, HIGH);	
+				digitalWrite(9, HIGH);
+               			Serial.println("pin 9");
 			}
 			else{
 			  if (carrossel == 2){
 					turnOFF();
 					digitalWrite(11, HIGH);
+                			Serial.println("pin 11");
 			  }else{
 				if (carrossel == 3){
 					turnOFF();
 					digitalWrite(10, HIGH);
+                  			Serial.println("pin 10");
 				}else{
 				  if (carrossel >3)
 				  {
-					  carrossel = 0;
-				  }
-				}
+					  carrossel = 0;}}
 				}
 			}
 		 }
@@ -135,25 +144,23 @@ void onesection(){
 void alternate(){
 	while (modo ==3){
 		verificaModo();
-		direction = analogRead(A1);
 		controleDIR();
-        Serial.println(direction);
+		Serial.println(direction);
 		if (carrossel == 0){
 			turnOFF();
 			digitalWrite(8, HIGH);
 			digitalWrite(11, HIGH); 
+          		Serial.println("pin 8 e 11");
 			
 		 }else{
 			if (carrossel == 1){
 				turnOFF();
 				digitalWrite(9, HIGH);
 				digitalWrite(10, HIGH);
-			
+				Serial.println("pin 9 e 10");
 			}
-		
 		}
 	} 
-	
 }
 
 
@@ -192,6 +199,7 @@ void loop()
 {
   ligado = digitalRead(13);
   if (ligado != 0){
+    controleDIR();
     verificaModo();
   }else{
 	  turnOFF();
